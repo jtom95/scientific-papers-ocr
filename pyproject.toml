@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "scientific-papers-ocr"
+version = "0.1.0"
+description = "Performs Optical Character Recognition on Scientific Articles and Publications. The core is based on nougat_ocr by facebook research [https://github.com/facebookresearch/nougat]. However, it also leverages other packages such as tesseract by google to check if characters are missing and force a re-evaluation of the section of a page where text is missing. Moreover, it uses habanero and beatiful-soup to find the complete references information online. The extracted papers are stored in json format."
+authors = ["Tomas <tomas.monopoli@gmail.com>"]
+license = "\"MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+numpy = "^1.26.4"
+pypdf2 = "1.28.6"
+nougat-ocr = "0.1.17"
+habanero = "1.2.3"
+
+[tool.poetry.scripts]
+generate_rich_documents = "scientific_papers_ocr.generate_edocs:main"
+rich_document_to_markdown = "scientific_papers_ocr.rich_document_to_markdown:main"
+rich_document_to_notion = "scientific_papers_ocr.rich_document_to_notion:main"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
