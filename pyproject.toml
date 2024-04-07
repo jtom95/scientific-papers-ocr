@@ -8,13 +8,13 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-numpy = "^1.26.4"
+numpy = "^1.26.3"
 pypdf2 = "1.28.6"
 nougat-ocr = "0.1.17"
 habanero = "1.2.3"
 
 [tool.poetry.scripts]
-generate_rich_documents = "scientific_papers_ocr.generate_edocs:main"
+generate_rich_documents = "scientific_papers_ocr.generate_rich_documents:main"
 rich_document_to_markdown = "scientific_papers_ocr.rich_document_to_markdown:main"
 rich_document_to_notion = "scientific_papers_ocr.rich_document_to_notion:main"
 
