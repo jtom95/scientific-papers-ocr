@@ -46,6 +46,7 @@ Full tutorial at: https://developers.notion.com/docs/create-a-notion-integration
 In order to run the provided high level functions you need to provide the: 
 1. path to the NOUGAT tranformer model
 2. notion API key (and optionally notion version)
+
 While it is possible to pass these in the functions themselves, the simpler solution is to set them as environment variables. If you're working from this directory you can achieve this simply by uncommenting and filling out the .env file. 
 
 
