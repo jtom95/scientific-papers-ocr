@@ -1,12 +1,14 @@
 This is a wrapper around facebook's NOUGAT model for scientific paper OCR.
 
 
-## Improvements:
+## Improvements on Regular Nougat:
 1. For lower end GPUs, it is necessary to set lower precision and use the smaller model 0.1.0-small. As a consequence the model is prone to skip parts of the papers. In this implementation, tesseract is used to double check if some parts of the paper are skipped. It does this by chosing representative sequences of words sampled from the text and verifying that they appear in the nougat extraction.
 
 2. By default nougat returns .mmd files corresponding to each page. This project returns large .json files that collect, not only the raw text, but also useful metadata of the pdf paper (such as references information, authors, year etc.). The .json files are named "rich_documents" in the code.
 
 3. Functions have been developed to write the full markdown text (.md) or write on a Notion page from the rich document. 
+
+![Uploading TrailerOCRscientific-MadewithClipchamp-ezgif.com-video-to-gif-converter.gif…]()
 
 ## Setup
 * Download the nougat transformer model of your choice from [...](https://github.com/facebookresearch/nougat/releases) [small model is recommended for lower end GPUs].
