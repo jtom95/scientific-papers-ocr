@@ -97,7 +97,7 @@ def main():
 
     run(
         pdf_paths=args.pdf_paths,
-        output_db=args.output_db,
+        output_db=args.output_dir,
         start_from_scratch=args.start_from_scratch,
         model_directory=args.model_directory,
         model_size=args.model_size,
