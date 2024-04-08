@@ -12,6 +12,7 @@ numpy = "^1.26.3"
 pypdf2 = "1.28.6"
 nougat-ocr = "0.1.17"
 habanero = "1.2.3"
+transformers = "4.38.2"
 
 [tool.poetry.scripts]
 generate_rich_documents = "scientific_papers_ocr.generate_rich_documents:main"
