@@ -8,7 +8,7 @@ This is a wrapper around facebook's NOUGAT model for scientific paper OCR.
 
 3. Functions have been developed to write the full markdown text (.md) or write on a Notion page from the rich document. 
 
-![Uploading TrailerOCRscientific-MadewithClipchamp-ezgif.com-video-to-gif-converter.gif…]()
+![TrailerOCRscientific-MadewithClipchamp-ezgif com-video-to-gif-converter](https://github.com/jtom95/scientific-papers-ocr/assets/66060633/8c5434a2-97bd-4cc4-b3bf-81ad4ef34e9d)
 
 ## Setup
 * Download the nougat transformer model of your choice from [...](https://github.com/facebookresearch/nougat/releases) [small model is recommended for lower end GPUs].
