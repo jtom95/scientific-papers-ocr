@@ -12,6 +12,7 @@ print(load_dotenv())
 from notion_interface.notion_cli import NotionClient
 from notion_interface.pages.scientific_page_handler import SciPaperPage
 from rich_docs.edocument_class import EDocument
+from helper_functions.helpers_for_main import get_input_path
 
 # set logging level
 import logging
@@ -45,15 +46,27 @@ def run(
 def main():
     parser = argparse.ArgumentParser(description="Write eDocs to markdown")
     parser.add_argument("rich_document_paths", type=Path, nargs="+", help="Path to rich documents")
-    parser.add_argument("-o", "--output_dir", type=Path, help="Output directory", default="output")
-    
+    parser.add_argument("-o", "--output_dir", type=Path, help="Output directory", default=".")
+
     args = parser.parse_args()
+
+    if args.rich_document_paths is None:
+        raise ValueError("Please provide at least one PDF file path")
     
+    rich_document_paths = [
+        get_input_path(pdf_path) for pdf_path in args.rich_document_paths
+        ]
+    if len(rich_document_paths) == 1:
+        if rich_document_paths[0].is_dir():
+            rich_document_paths = list(rich_document_paths[0].rglob("*.json"))
+
+    output_dir = get_input_path(args.output_dir)
+
     run(
-        rich_document_paths=args.rich_document_paths,
-        output_dir=args.output_dir,
+        rich_document_paths=rich_document_paths,
+        output_dir=output_dir,
     )
-    
+
     return None
 
 if __name__ == "__main__":

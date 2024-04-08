@@ -6,7 +6,7 @@ from pprint import pprint
 import argparse
 import os
 
-
+from helper_functions.helpers_for_main import get_input_path
 from extract_OCR.main_nougat import NougatOCR
 from extract_OCR.helper_classes.nougat_model_configs import LocalSettings, Configs
 
@@ -16,15 +16,6 @@ from extract_OCR.main import ExtractOCR
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def get_input_path(str_path: str) -> Path:
-    if isinstance(str_path, Path):
-        str_path = str(str_path)
-    if str_path[:2] in ('r"', 'r"'):
-        str_path = str_path[2:-1]
-    if str_path[:1] in ('"', "'"):
-        str_path = str_path[1:-1]
-    str_path = r"{}".format(str_path)
-    return Path(str_path)
 
 def run(
     pdf_paths: List[Path], 
@@ -88,7 +79,7 @@ def run(
 def main():
     parser = argparse.ArgumentParser(description="Extract OCR and generate EDocument database")
     parser.add_argument("pdf_paths", nargs="+", type=Path, help="List of PDF file paths")
-    parser.add_argument("-o", "--output_db", type=Path, default=".", help="Output database directory")
+    parser.add_argument("-o", "--output_dir", type=Path, default=".", help="Output database directory")
     parser.add_argument("--start_from_scratch", default=True, action="store_true", help="Start from scratch (default: True)")
     parser.add_argument("--model_directory", type=Path, help="Model directory (optional)")
     parser.add_argument("--model_size", type=str, default="small", choices=["small", "base"], help="Model size (optional)")
