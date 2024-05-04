@@ -96,7 +96,7 @@ def main():
             pdf_paths = list(pdf_paths[0].glob("*.pdf"))
 
     run(
-        pdf_paths=args.pdf_paths,
+        pdf_paths=pdf_paths,
         output_db=args.output_dir,
         start_from_scratch=args.start_from_scratch,
         model_directory=args.model_directory,

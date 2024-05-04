@@ -59,6 +59,8 @@ class SciPaperPage(NotionPage):
 
     def write_abstract(self, page: Optional[NotionPage] = None):
         abstract = self.edoc.abstract.text
+        if abstract is None:
+            return
         abstract_blocks = self.text2blocks("**Abstract:** " + abstract)
         annotated_blocks = []
         if isinstance(abstract_blocks, dict):
@@ -85,7 +87,7 @@ class SciPaperPage(NotionPage):
 
         if page is None:
             page = self
-        page._send_blocks(title_blocks + section_blocks)
+        page.send_blocks(title_blocks + section_blocks)
 
     def write_sections(self, page: Optional[NotionPage] = None):
         for section_name in self.edoc.sections:

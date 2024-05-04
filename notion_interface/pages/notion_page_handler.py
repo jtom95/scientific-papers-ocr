@@ -90,19 +90,25 @@ class NotionPage:
             else:
                 raise ValueError("Invalid block type")
 
-            if len(blocks) > max_blocks:
-                blocks_to_send = blocks[:max_blocks]
-                blocks = blocks[max_blocks:]
-                self._send_blocks(blocks_to_send)
-            elif len(blocks) == max_blocks:
-                self._send_blocks(blocks)
-                blocks = []
+            # if len(blocks) > max_blocks:
+            #     blocks_to_send = blocks[:max_blocks]
+            #     blocks = blocks[max_blocks:]
+            #     self._send_blocks(blocks_to_send)
+            # elif len(blocks) == max_blocks:
+            #     self._send_blocks(blocks)
+            #     blocks = []
         return blocks
 
     def write_section_to_notion(self, text: str, max_blocks=100, max_len_block=1000):
         """Writes a section of text to the notion page."""
         blocks = self.text2blocks(text, max_blocks=max_blocks, max_len_block=max_len_block)
-        self._send_blocks(blocks)
+        self.send_blocks(blocks)
+        
+    def send_blocks(self, blocks: List[DictBlock], max_blocks=100):
+        """Sends blocks to the notion page."""
+        for ii in range(0, len(blocks), max_blocks):
+            blocks_to_send = blocks[ii:ii + max_blocks]
+            self._send_blocks(blocks_to_send)
 
     def _send_blocks(self, blocks):
         payload = {"children": blocks}
