@@ -38,7 +38,12 @@ def run(
             logger.warning("Notion version not provided. Using 2022-06-28 as default version. Please provide the version as NOTION_VERSION in the environment variables.")
     if page_id is None:
         page_id = input("Please provide the page ID of the Notion page: ")
-
+        
+    if page_id.startswith("https://www.notion.so/"):
+        page_id = page_id.split("/")[-1]
+        page_id = page_id.split("?")[0]
+        page_id = page_id.split("-")[-1]
+        
     notion_cli = NotionClient(
         notion_api_key=notion_api_key,
         notion_version=notion_version,

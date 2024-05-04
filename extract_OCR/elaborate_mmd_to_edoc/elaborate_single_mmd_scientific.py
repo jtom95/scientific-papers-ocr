@@ -99,7 +99,17 @@ class ElaborateMarkdownPrediction:
         return is_numeral
 
     def extract_sections(self) -> Dict[int, Section]:
-        if self.abstract_end_page is None or self.reference_start_page is None:
+        if self.abstract_end_page is None:
+            start_position = (0, 0)
+        else:
+            start_position = (self.abstract_end_page, self.abstract_end)
+        
+        if self.reference_start_page is None:
+            end_position = (len(self.predictions[-1]), 0)
+        else:
+            end_position = (self.reference_start_page, self.reference_start)
+        
+        if self.abstract_end_page is None and self.reference_start_page is None:
             # return all as one section
             return {1: Section(start_position=(0, 0), end_position=(0, len(self.predictions[0])), text=" ".join(self.predictions), title="Full Text", number=1)}
         
@@ -567,6 +577,7 @@ class ElaborateMarkdownPrediction:
 
     def find_abstract_start(self) -> Optional[Dict]:
         key_names = self.generate_keyname_variations("Abstract")
+        key_names += self.generate_keyname_variations("abstract")
 
         # go through the pages in reverse order
         for name in key_names:
@@ -604,4 +615,9 @@ class ElaborateMarkdownPrediction:
         keyname_variations = []
         for s in ElaborateMarkdownPrediction.title_prefixes:
             keyname_variations.append(s + keyname)
+        
+        # other forms encountered in practice:
+        keyname_variations.append("_"+keyname+"_")
+        keyname_variations.append("_"+keyname+":_")
+        keyname_variations.append("_"+keyname+"--_")
         return keyname_variations

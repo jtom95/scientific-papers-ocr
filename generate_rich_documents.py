@@ -1,4 +1,4 @@
-from typing import List, Optional, Tuple, Literal
+from typing import List, Optional, Tuple, Literal, Union
 from pathlib import Path
 import logging
 import pypdf
@@ -79,8 +79,8 @@ def run(
 def main():
     parser = argparse.ArgumentParser(description="Extract OCR and generate EDocument database")
     parser.add_argument("pdf_paths", nargs="+", type=Path, help="List of PDF file paths")
-    parser.add_argument("-o", "--output_dir", type=Path, default=".", help="Output database directory")
-    parser.add_argument("--start_from_scratch", default=True, action="store_true", help="Start from scratch (default: True)")
+    parser.add_argument("-o", "--output_dir", type=Union[Path, None], default=None, help="Output database directory")
+    parser.add_argument("--start_from_scratch", default=0, action="store_true", help="Start from scratch (default: True)")
     parser.add_argument("--model_directory", type=Path, help="Model directory (optional)")
     parser.add_argument("--model_size", type=str, default="small", choices=["small", "base"], help="Model size (optional)")
     parser.add_argument("--batch_size", type=int, default=1, help="Batch size (default: 1)")
@@ -91,14 +91,32 @@ def main():
         raise ValueError("Please provide at least one PDF file path")
     
     pdf_paths = [Path(pdf_path) for pdf_path in args.pdf_paths] 
+
+    output_dir = args.output_dir
+    if output_dir is None:
+        if len(pdf_paths)==1 and pdf_paths[0].is_dir():
+            output_dir = pdf_paths[0]
+        elif len(pdf_paths)>1:
+            output_dirs = [pdf_path.parent for pdf_path in pdf_paths]
+            if len(set(output_dirs)) == 1:
+                output_dir = output_dirs[0]
+        else:
+            output_dir = Path.cwd()
+    output_dir = Path(output_dir)
+    if not output_dir.exists():
+        output_dir.mkdir(parents=True, exist_ok=True)
+            
     if len(pdf_paths) == 1:
         if pdf_paths[0].is_dir():
             pdf_paths = list(pdf_paths[0].glob("*.pdf"))
+            
+    start_from_scratch = args.start_from_scratch
+    start_from_scratch = True if start_from_scratch == 1 else False
 
     run(
         pdf_paths=pdf_paths,
-        output_db=args.output_dir,
-        start_from_scratch=args.start_from_scratch,
+        output_db=output_dir,
+        start_from_scratch=start_from_scratch,
         model_directory=args.model_directory,
         model_size=args.model_size,
         batch_size=args.batch_size
